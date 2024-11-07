@@ -10,27 +10,22 @@ provider "google" {
   zone    = local.zone
 }
 
-# Enable GCP APIs
+# Enable GCP services
 
-resource "google_project_service" "cloudrun_api" {
+resource "google_project_service" "gcp_services" {
+  for_each = toset(var.gcp_services)
   project = var.project_id
-  service = "run.googleapis.com"
+  service = each.key
 }
-
-resource "google_project_service" "cloudresourcemanager_api" {
-  project = var.project_id
-  service = "cloudresourcemanager.googleapis.com"
-}
-
 
 # Configure Docker repository
 
-#resource "google_artifact_registry_repository" "my_repo" {
-#  location      = local.region
-#  repository_id = "my-repo"
-#  description   = "My repository"
-#  format        = "DOCKER"
-#}
+resource "google_artifact_registry_repository" "my_repo" {
+  location      = local.region
+  repository_id = "my-repo"
+  description   = "My repository"
+  format        = "DOCKER"
+}
 
 #resource "google_cloud_run_v2_service" "cts" {
 #  name = "cts"
