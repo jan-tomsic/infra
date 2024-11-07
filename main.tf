@@ -27,8 +27,16 @@ resource "google_artifact_registry_repository" "my_repo" {
   format        = "DOCKER"
 }
 
-#resource "google_cloud_run_v2_service" "cts" {
-#  name = "cts"
-#  location = local.region
-#  
-#}
+# https://registry.terraform.io/providers/hashicorp/google/latest/docs/resources/cloud_run_v2_service
+resource "google_cloud_run_v2_service" "cts" {
+  name = "cts"
+  location = local.region
+  
+  template {
+    spec {
+      containers {
+        image = "${var.region}-docker.pkg.dev"
+      }
+    }
+  }
+}
