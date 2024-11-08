@@ -36,12 +36,6 @@ resource "google_cloud_run_v2_service" "cts" {
   template {
     containers {
       image = "${local.region}-docker.pkg.dev/${var.project_id}/${google_artifact_registry_repository.my_repo.repository_id}/cts:${var.app_version}"
-      resources {
-        limits = {
-          cpu    = "1"
-          memory = "128Mi"
-        }
-      }
     }
   }
 }
