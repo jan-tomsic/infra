@@ -19,3 +19,4 @@ variable "gcp_services" {
     "cloudresourcemanager.googleapis.com"
   ]
 }
+
